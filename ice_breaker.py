@@ -1,6 +1,8 @@
 from dotenv import load_dotenv
 from langchain_core.prompts import PromptTemplate
 from langchain_openai import ChatOpenAI
+from langchain_ollama import ChatOllama
+from langchain_core.output_parsers import StrOutputParser
 
 information = """
 Elon Reeve Musk (/ˈiːlɒn/ EE-lon; born June 28, 1971) is a right-wing businessman known for his leadership of Tesla, SpaceX, and X (formerly Twitter). Since 2025, he has been a senior advisor to United States president Donald Trump and the de facto head of the Department of Government Efficiency (DOGE). Musk has been the wealthiest person in the world since 2021; as of March 2025, Forbes estimates his net worth to be US$345 billion. He was named Time magazine's Person of the Year in 2021.
@@ -24,9 +26,11 @@ if __name__ == "__main__":
 
     summary_prompt_template = PromptTemplate.from_template(summary_template)
 
-    llm = ChatOpenAI(model="gpt-3.5-turbo", temperature=0)
+    # llm = ChatOpenAI(model="gpt-3.5-turbo", temperature=0)
+    # llm = ChatOllama(model="llama3.2", temperature=0)
+    llm = ChatOllama(model="mistral", temperature=0)
 
-    chain = summary_prompt_template | llm
+    chain = summary_prompt_template | llm | StrOutputParser()
 
     res = chain.invoke(input={"information": information})
-    print(res.content)
+    print(res)
