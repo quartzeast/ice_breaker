@@ -11,4 +11,22 @@ class Summary(BaseModel):
         return {"summary": self.summary, "facts": self.facts}
 
 
+class IceBreaker(BaseModel):
+    ice_breakers: List[str] = Field(description="List of ice breaker questions")
+
+    def to_dict(self) -> Dict[str, Any]:
+        return {"ice_breakers": self.ice_breakers}
+
+
+class TopicOfInterest(BaseModel):
+    topics_of_interest: List[str] = Field(
+        description="topic that might interest the person"
+    )
+
+    def to_dict(self) -> Dict[str, Any]:
+        return {"topics_of_interest": self.topics_of_interest}
+
+
 summary_parser = PydanticOutputParser(pydantic_object=Summary)
+ice_breaker_parser = PydanticOutputParser(pydantic_object=IceBreaker)
+topics_of_interest_parser = PydanticOutputParser(pydantic_object=TopicOfInterest)
